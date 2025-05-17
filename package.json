@@ -1,0 +1,28 @@
+{
+  "name": "p2p-screener",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts --mode BYBIT",
+    "build": "tsc -p .",
+    "start": "node dist/index.js --mode"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "11.9.1",
+    "bitget-api": "^2.3.5",
+    "dotenv": "^16.5.0",
+    "node-cron": "^4.0.5",
+    "playwright": "1.52.0",
+    "playwright-extra": "4.3.6",
+    "puppeteer-extra-plugin-stealth": "2.11.2",
+    "ts-node": "10.9.2",
+    "typescript": "5.8.3"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "7.6.13"
+  }
+}
