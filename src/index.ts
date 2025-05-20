@@ -6,6 +6,7 @@ import { P2PExchanges } from './shared/types';
 import { BybitP2PParser } from './parsers/bybit';
 import { BitGetP2PParser } from './parsers/bitget';
 import cron from 'node-cron';
+import { CronJob } from 'cron';
 
 const getMode = () => getArgument(argv, 'mode') as P2PExchanges;
 
@@ -25,7 +26,8 @@ async function runParser() {
   }
 }
 
-cron.schedule('*/5 * * * *', async () => {
+
+const job = new CronJob('*/1 * * * *', async () => {
   console.log(`[${new Date().toISOString()}] Running parser...`);
   try {
     await runParser();
@@ -33,6 +35,8 @@ cron.schedule('*/5 * * * *', async () => {
     console.error('Error running parser:', e);
   }
 });
+
+job.start();
 
 runParser().catch((e) => {
   console.error(e);
