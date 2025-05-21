@@ -27,7 +27,7 @@ async function runParser() {
 }
 
 
-const job = new CronJob('*/1 * * * *', async () => {
+const job = new CronJob('*/7 * * * *', async () => {
   console.log(`[${new Date().toISOString()}] Running parser...`);
   try {
     await runParser();
