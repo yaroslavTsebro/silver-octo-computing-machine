@@ -5,8 +5,8 @@ import { getArgument } from './shared/functions/get-argument';
 import { P2PExchanges } from './shared/types';
 import { BybitP2PParser } from './parsers/bybit';
 import { BitGetP2PParser } from './parsers/bitget';
-import cron from 'node-cron';
 import { CronJob } from 'cron';
+import { Transformer } from 'transform/index';
 
 const getMode = () => getArgument(argv, 'mode') as P2PExchanges;
 
@@ -19,6 +19,9 @@ async function runParser() {
       break;
     case P2PExchanges.HTX:
       await new BitGetP2PParser().run();
+      break;
+    case P2PExchanges.TRANSFORM:
+      await new Transformer().run();
       break;
     default:
       console.error('Unknown mode');

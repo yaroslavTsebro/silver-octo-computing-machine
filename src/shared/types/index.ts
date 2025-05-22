@@ -1,6 +1,7 @@
 export enum P2PExchanges {
   BYBIT = 'BYBIT',
   HTX = 'HTX',
+  TRANSFORM = 'TRANSFORM',
 }
 
 export enum AdDirection {
