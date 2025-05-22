@@ -4,6 +4,7 @@ import { AdDirection, CryptoTickers, FiatCodes } from '../shared/types';
 import { GetAdListResponseWrapped, GetAdListResponseItem, GetAdsRequest, IAdvisor, IAd } from '../shared/types/bybit';
 import Database from 'better-sqlite3';
 import { mapGetAdListItem } from '../shared/functions/bybit/mapGetAdListItem';
+import { db } from 'db/index.js';
 
 export enum Endpoints {
     GET_AD = 'v5/p2p/item/online',
@@ -15,6 +16,7 @@ export class BybitP2PParser {
     private readonly RECV_WINDOW = '5000';
     private readonly BASE_URL = 'https://api.bybit.com/';
     private readonly DELAY = 1000;
+    private readonly db = db;
 
     private signedHeaders(body: object): Record<string, string> {
         const ts = Date.now().toString();
@@ -39,64 +41,8 @@ export class BybitP2PParser {
         return `${this.BASE_URL}${endpoint}`;
     }
 
-    private initDb() {
-        const db = new Database('./bybit.db');
-
-        db.exec(`CREATE TABLE IF NOT EXISTS ads (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      accountId TEXT,
-      userId TEXT,
-      adId TEXT,
-      tokenId TEXT,
-      tokenName TEXT,
-      currencyId TEXT,
-      side INTEGER,
-      priceType INTEGER,
-      price TEXT,
-      premium TEXT,
-      lastQuantity TEXT,
-      quantity TEXT,
-      frozenQuantity TEXT,
-      executedQuantity TEXT,
-      minAmount TEXT,
-      maxAmount TEXT,
-      remark TEXT,
-      status INTEGER,
-      createDate TEXT,
-      payments JSON,
-      fee TEXT,
-      symbolInfo JSON,
-      tradingPreferenceSet JSON,
-      version INTEGER,
-      itemType TEXT,
-      paymentPeriod INTEGER,
-      createdAt TEXT
-    );`);
-
-        db.exec(`CREATE TABLE IF NOT EXISTS advisors (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      accountId TEXT,
-      userId TEXT,
-      nickName TEXT,
-      orderNum INTEGER,
-      finishNum INTEGER,
-      recentOrderNum INTEGER,
-      recentExecuteRate INTEGER,
-      isOnline BOOLEAN,
-      lastLogoutTime TEXT,
-      blocked TEXT,
-      makerContact BOOLEAN,
-      authStatus INTEGER,
-      authTag JSON,
-      userType TEXT,
-      createdAt TEXT
-    );`);
-
-        return db;
-    }
-
     private saveToDb(ads: any[], advisors: any[]) {
-        const db = this.initDb();
+        const db = this.db;
         const now = new Date().toISOString();
 
         const adInsert = db.prepare(`INSERT INTO ads (

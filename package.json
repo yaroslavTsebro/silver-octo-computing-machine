@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "ts-node src/index.ts --mode TRANSFORM",
     "dev1": "npx tsx src/index.ts --mode TRANSFORM",
+    "app": "npx tsx src/index.ts --mode APP",
     "build": "tsc -p .",
     "start": "node dist/index.js --mode"
   },
@@ -18,7 +19,8 @@
     "bitget-api": "^2.3.5",
     "cron": "^4.3.0",
     "dotenv": "^16.5.0",
-    "node-cron": "3.0.2",
+    "fastify": "^5.3.3",
+    "node-cron": "^3.0.2",
     "playwright": "1.52.0",
     "playwright-extra": "4.3.6",
     "puppeteer-extra-plugin-stealth": "2.11.2",

@@ -23,6 +23,9 @@ async function runParser() {
     case P2PExchanges.TRANSFORM:
       await new Transformer().run();
       break;
+    case P2PExchanges.APP:
+      await new BitGetP2PParser().run();
+      break;
     default:
       console.error('Unknown mode');
       process.exit(1);
