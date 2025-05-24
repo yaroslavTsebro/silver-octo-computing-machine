@@ -7,6 +7,7 @@ import { BybitP2PParser } from './parsers/bybit';
 import { BitGetP2PParser } from './parsers/bitget';
 import { CronJob } from 'cron';
 import { Transformer } from 'transform/index';
+import { startServer } from 'app/server';
 
 const getMode = () => getArgument(argv, 'mode') as P2PExchanges;
 
@@ -24,7 +25,7 @@ async function runParser() {
       await new Transformer().run();
       break;
     case P2PExchanges.APP:
-      await new BitGetP2PParser().run();
+      await startServer()
       break;
     default:
       console.error('Unknown mode');
@@ -33,16 +34,16 @@ async function runParser() {
 }
 
 
-const job = new CronJob('*/7 * * * *', async () => {
-  console.log(`[${new Date().toISOString()}] Running parser...`);
-  try {
-    await runParser();
-  } catch (e) {
-    console.error('Error running parser:', e);
-  }
-});
+// const job = new CronJob('*/7 * * * *', async () => {
+//   console.log(`[${new Date().toISOString()}] Running parser...`);
+//   try {
+//     await runParser();
+//   } catch (e) {
+//     console.error('Error running parser:', e);
+//   }
+// });
 
-job.start();
+// job.start();
 
 runParser().catch((e) => {
   console.error(e);
